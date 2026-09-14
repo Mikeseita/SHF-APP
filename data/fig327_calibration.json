@@ -1,6 +1,6 @@
 {
   "vre_vcef_flap10_shf_to": {
-    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\FIG327_sheet1.png",
+    "source_image": "10º FLAPS/DESCOLAGEM/hires/FIG327_sheet1.png",
     "panel1_temp_axis": {"x_at_neg20": 308.0, "px_per_degC": 4.0125},
     "panel1_points_file": "fig327_panel1_points.json",
     "panel1_curve_order_kft": [-1, 0, 2, 4, 6, 8, 10, 12, 14],

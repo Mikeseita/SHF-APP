@@ -1,6 +1,6 @@
 {
   "torun_flap10_shf_to": {
-    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\TORUN_sheet1.png",
+    "source_image": "10º FLAPS/DESCOLAGEM/hires/TORUN_sheet1.png",
     "panel1_temp_axis": {"y_at_60C": 475, "px_per_degC": 7.45},
     "panel1_curves": {
       "-1": {"m": -0.1973, "b": 685.20},

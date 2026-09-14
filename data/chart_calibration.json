@@ -1,6 +1,6 @@
 {
   "mtow_1eng_flap10_shf_to": {
-    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\MTOW_sheet1.png",
+    "source_image": "10º FLAPS/DESCOLAGEM/hires/MTOW_sheet1.png",
     "panel1_temp_axis": {"y_at_60C": 483.81, "px_per_degC": 6.464},
     "panel1_points_file": "mtow_panel1_points.json",
     "panel1_curve_order_kft": [-1, 0, 2],

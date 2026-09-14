@@ -1,6 +1,6 @@
 {
   "vmcg_flap10_shf_to": {
-    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\VMCG_sheet1.png",
+    "source_image": "10º FLAPS/DESCOLAGEM/hires/VMCG_sheet1.png",
     "temp_axis": {"x_at_neg40": 382, "px_per_degC": 11.5},
     "speed_axis": {"y_at_95kt": 483, "px_per_kt": 22.3},
     "curves": {

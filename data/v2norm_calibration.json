@@ -1,6 +1,6 @@
 {
   "v2norm_flap10_normal_to": {
-    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\FigV2NORM_sheet1.png",
+    "source_image": "10º FLAPS/DESCOLAGEM/hires/FigV2NORM_sheet1.png",
     "panel1_temp_axis": {"y_at_m40C": 439.5, "px_per_degC": 5.4},
     "panel1_points_file": "v2norm_panel1_points.json",
     "panel1_curve_order_kft": [-1, 0, 1, 2],

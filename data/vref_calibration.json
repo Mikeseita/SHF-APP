@@ -1,6 +1,6 @@
 {
   "vref_flap23_shf_ldg": {
-    "source_image": "10º FLAPS\\ATERRAGEM\\hires\\VREF_sheet1.png",
+    "source_image": "10º FLAPS/ATERRAGEM/hires/VREF_sheet1.png",
     "speed_axis": {"y_at_115kt": 493.5, "px_per_kt": 18.4222},
     "weight_axis": {"x_at_12000kg": 393.0, "px_per_kg": 0.095},
     "vth_curve_points": [

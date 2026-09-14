@@ -1,6 +1,6 @@
 {
   "vr_v2_flap10_shf_to": {
-    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\Fig331_sheet1.png",
+    "source_image": "10º FLAPS/DESCOLAGEM/hires/Fig331_sheet1.png",
     "panel1_temp_axis": {"y_at_m40C": 476.573, "px_per_degC": 5.4273},
     "panel1_points_file": "fig331_panel1_points.json",
     "panel1_curve_order_kft": [-1, 0, 2],
