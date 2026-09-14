@@ -1,0 +1,31 @@
+{
+  "mtow_1eng_flap10_shf_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\MTOW_sheet1.png",
+    "panel1_temp_axis": {"y_at_60C": 483.81, "px_per_degC": 6.464},
+    "panel1_points_file": "mtow_panel1_points.json",
+    "panel1_curve_order_kft": [-1, 0, 2],
+    "panel1_curve_labels": ["-1", "SL", "2"],
+    "panel1_note": "Digitizado a partir da pagina PDF em alta resolucao (3x). Tracado denso pixel-a-pixel para -1/SL/2 (confirmado visualmente contra as etiquetas impressas). Curvas 4-14 nao digitalizadas (nao usadas para elevacoes ate 2000ft); fora desse intervalo o modelo extrapola linearmente entre SL e 2.",
+    "panel2_gradient_curves": {
+      "0": {"m": -0.85000, "b": 2010.00},
+      "1": {"m": -0.87875, "b": 2127.33},
+      "2": {"m": -0.94500, "b": 2305.65},
+      "3": {"m": -1.00375, "b": 2468.08},
+      "4": {"m": -1.05375, "b": 2614.08},
+      "5": {"m": -1.09525, "b": 2744.51},
+      "6": {"m": -1.16161, "b": 2924.37},
+      "7": {"m": -1.20000, "b": 3061.75}
+    },
+    "panel3": {
+      "baseline_x": 1297.5,
+      "right_axis_x": 1429.5,
+      "drag_index_axis": {"x_at_0": 1297, "x_at_200": 1430},
+      "weight_axis": {"y_at_24000": 1208, "px_per_1000kg": 64.7},
+      "diagonals": [
+        [1209.31, 0.89346], [1273.82, 0.85434], [1338.30, 0.81514], [1402.83, 0.77539],
+        [1467.35, 0.73561], [1531.86, 0.69667], [1596.46, 0.65498], [1660.99, 0.61596],
+        [1725.53, 0.57591], [1790.11, 0.53465], [1854.54, 0.49700], [1919.17, 0.45585]
+      ]
+    }
+  }
+}

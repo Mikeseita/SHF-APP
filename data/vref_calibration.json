@@ -1,0 +1,18 @@
+{
+  "vref_flap23_shf_ldg": {
+    "source_image": "10º FLAPS\\ATERRAGEM\\hires\\VREF_sheet1.png",
+    "speed_axis": {"y_at_115kt": 493.5, "px_per_kt": 18.4222},
+    "weight_axis": {"x_at_12000kg": 393.0, "px_per_kg": 0.095},
+    "vth_curve_points": [
+      [12000, 1144.5], [13000, 1085.9], [14000, 1028.73], [15000, 972.86],
+      [16000, 918.9], [17000, 866.9], [18000, 816.36], [19000, 767.42],
+      [20000, 719.34], [21000, 672.82], [22000, 626.91], [23000, 582.86]
+    ],
+    "vtd_curve_points": [
+      [12000, 1241.0], [13000, 1181.82], [14000, 1124.92], [15000, 1067.78],
+      [16000, 1014.32], [17000, 964.41], [18000, 916.32], [19000, 866.93],
+      [20000, 819.38], [21000, 772.78], [22000, 727.74], [23000, 682.87]
+    ],
+    "note": "Digitalizado a partir da Figura 8-7 (Landing Speeds, Short Field Landing, Flaps 23). Grafico simples, sem dependencia de temp/altitude -- so peso de aterragem. VTH = 1.13 VSR (threshold speed, usado como Vref_shf), VTD = 1.10 VSR (touchdown speed). Tracado por seguimento pixel-a-pixel (ridge trace) ao longo de toda a curva, 12000-23000kg em passos de 1000kg."
+  }
+}

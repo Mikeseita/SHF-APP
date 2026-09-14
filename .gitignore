@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+static/overlays/*
+!static/overlays/.gitkeep
+.DS_Store

@@ -1,0 +1,23 @@
+{
+  "torun_flap10_shf_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\TORUN_sheet1.png",
+    "panel1_temp_axis": {"y_at_60C": 475, "px_per_degC": 7.45},
+    "panel1_curves": {
+      "-1": {"m": -0.1973, "b": 685.20},
+      "SL": {"m": -0.2198, "b": 721.16},
+      "2":  {"m": -0.2443, "b": 759.10},
+      "4":  {"m": -1.6505, "b": 2198.24},
+      "6":  {"m": -2.0135, "b": 2587.61},
+      "8":  {"m": -2.0840, "b": 2762.77},
+      "10": {"m": -1.9760, "b": 2798.06}
+    },
+    "panel1_curve_order_kft": [-1, 0, 2, 4, 6, 8, 10],
+    "panel1_curve_labels": ["-1", "SL", "2", "4", "6", "8", "10"],
+    "panel1_note": "-1/SL/2 recalibrados com alta precisao a partir do PDF original (pagina 3-78).",
+    "panel2_weight_order": [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23.2],
+    "panel2_note": "panel2_weight_curves removido - usa-se exclusivamente panel2_points.",
+    "output_axis": {"y_at_6kft": 1263, "px_per_kft": 149.0, "axis_x": 1392},
+    "panel1_left": 474,
+    "panel2_right": 1392
+  }
+}

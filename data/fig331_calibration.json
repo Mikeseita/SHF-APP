@@ -1,0 +1,45 @@
+{
+  "vr_v2_flap10_shf_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\Fig331_sheet1.png",
+    "panel1_temp_axis": {"y_at_m40C": 476.573, "px_per_degC": 5.4273},
+    "panel1_points_file": "fig331_panel1_points.json",
+    "panel1_curve_order_kft": [-1, 0, 2],
+    "panel1_curve_labels": ["-1", "SL", "2"],
+
+    "panel2_minvr_axis": {"y_at_70kt": 1051.9, "px_per_kt": 5.43},
+    "panel2_weight_curves_kg": {
+      "16000": {"x1": 1296, "y1": 1162.0, "x2": 1308, "y2": 1166.0},
+      "18000": {"x1": 1296, "y1": 1146.0, "x2": 1308, "y2": 1151.0},
+      "20000": {"x1": 1296, "y1": 1146.0, "x2": 1308, "y2": 1151.0}
+    },
+    "panel2_weight_order": [16000, 18000, 20000],
+
+    "panel3_vr_axis": {"y_at_70kt": 1301.455, "px_per_kt": 10.8576},
+    "panel3_weight_curves_kg": {
+      "14000": {"x1": 1296, "y1": 1332.5, "x2": 1308, "y2": 1327.0},
+      "15000": {"x1": 1296, "y1": 1378.5, "x2": 1308, "y2": 1375.5},
+      "16000": {"x1": 1296, "y1": 1429.5, "x2": 1308, "y2": 1423.5},
+      "17000": {"x1": 1296, "y1": 1472.5, "x2": 1308, "y2": 1466.5},
+      "18000": {"x1": 1296, "y1": 1518.5, "x2": 1308, "y2": 1513.5},
+      "19000": {"x1": 1296, "y1": 1562.5, "x2": 1308, "y2": 1556.5},
+      "20000": {"x1": 1296, "y1": 1606.5, "x2": 1308, "y2": 1600.5},
+      "21000": {"x1": 1296, "y1": 1663.0, "x2": 1308, "y2": 1655.0},
+      "22000": {"x1": 1296, "y1": 1714.5, "x2": 1308, "y2": 1708.5},
+      "23000": {"x1": 1296, "y1": 1750.0, "x2": 1308, "y2": 1750.0},
+      "23200": {"x1": 1296, "y1": 1805.0, "x2": 1308, "y2": 1803.5}
+    },
+    "panel3_weight_order": [14000,15000,16000,17000,18000,19000,20000,21000,22000,23000,23200],
+
+    "minv2_weight_axis": {"px_per_kg": -0.022286, "x_at_0kg": 1107.214},
+    "minv2_curve_points": [[16000, 1911.5], [17000, 1929.0], [18000, 1944.5], [19000, 1959.0]],
+
+    "v2_axis": {"y_at_80kt": 1822.6, "px_per_kt": 5.42},
+    "panel5_weight_curves_kg": {
+      "16000": {"x1": 1296, "y1": 1911.0, "x2": 1308, "y2": 1914.0},
+      "18000": {"x1": 1296, "y1": 1905.0, "x2": 1308, "y2": 1909.0}
+    },
+    "panel5_weight_order": [16000, 18000],
+
+    "note": "Digitalizado a partir da Figura 3-31 (Takeoff Speeds, SHF, Flaps TO). Painel1 (temp/altitude -> X partilhado) so tem as curvas -1/SL/2 tracadas (cobre elevacoes ate ~2000ft, suficiente para o aeroporto configurado). Paineis 2/3/5 (MinVR, VR, V2) usam um modelo linear local de 2 colunas (x=1296 e x=1308 px) em vez de tracado denso completo, porque a janela de X partilhado realmente usada pela app (TEMPS 10/20/30C, elev~86ft) cai sempre nesse intervalo estreito -- fora dele a precisao degrada. No Painel2 (MinVR), as curvas de peso 12/14/16/18/20 convergem e no ponto de leitura (x~1296-1308) as curvas 18 e 20 ja estao completamente fundidas uma na outra (confirmado visualmente pelo utilizador) -- por isso '18000' e '20000' usam os MESMOS pontos digitalizados (o par fundido), e '16000' usa a curva imediatamente abaixo dessa fusao (confirmada como a 3a a contar de baixo: 12,14,16,18/20). Peso 19000 fica entre 18 e 20 (mesma curva fundida) por isso da o mesmo valor que 18/20. Painel5 (V2) tem uma sobreposicao semelhante entre 14/16/18 -- '16000' representa esse grupo. MinV2 e funcao APENAS do peso (sem dependencia de temp/altitude), lido directamente do pequeno grafico weight->V2."
+  }
+}

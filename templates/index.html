@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>SHF Performance Tables</title>
+<style>
+  :root {
+    --bg: #0f1420; --panel: #171d2b; --panel2: #1e2637; --border: #2b3550;
+    --text: #e8ecf5; --muted: #8b96b0; --accent: #4d8dff; --danger: #ff5d5d;
+    --good: #3ecf8e;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family: 'Segoe UI', Arial, sans-serif; }
+  header { padding: 14px 24px; border-bottom: 1px solid var(--border); display:flex; align-items:center; gap:16px; }
+  header h1 { font-size: 18px; margin:0; font-weight:600; }
+  header .sub { color: var(--muted); font-size: 12px; }
+  .layout { display:flex; height: calc(100vh - 56px); }
+  .sidebar { width: 340px; border-right: 1px solid var(--border); padding: 16px; overflow-y:auto; }
+  .main { flex:1; overflow-y:auto; padding: 16px 20px; }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:16px; }
+  .card h3 { margin:0 0 10px 0; font-size:13px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+  label { display:block; font-size:12px; color:var(--muted); margin-top:8px; margin-bottom:3px; }
+  input, select { width:100%; padding:7px 9px; background:var(--panel2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:13px; }
+  button { cursor:pointer; border:none; border-radius:6px; padding:9px 14px; font-size:13px; font-weight:600; }
+  .btn-primary { background: var(--accent); color:white; width:100%; margin-top:12px; }
+  .btn-secondary { background: var(--panel2); color:var(--text); border:1px solid var(--border); }
+  .btn-danger { background: transparent; color:var(--danger); border:1px solid var(--danger); padding:4px 8px; font-size:11px;}
+  table { width:100%; border-collapse: collapse; font-size:12px; }
+  th, td { padding:5px 8px; text-align:center; border-bottom:1px solid var(--border); }
+  th { color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; }
+  tr.exceeds { opacity: 0.35; }
+  .airport-row { display:flex; justify-content:space-between; align-items:center; padding:6px 4px; font-size:13px; border-bottom:1px solid var(--border); cursor:pointer; }
+  .airport-row:hover { background: var(--panel2); }
+  .airport-row.active { background: rgba(77,141,255,.15); }
+  .temp-block { margin-bottom: 22px; }
+  .temp-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .temp-header .badge { background: var(--accent); color:white; font-weight:700; padding:3px 10px; border-radius:20px; font-size:13px; }
+  .mtow-val { font-size:15px; font-weight:700; color: var(--good); }
+  .grid2 { display:grid; grid-template-columns: minmax(380px,460px) 1fr; gap: 16px; align-items:start; }
+  .overlay-img { width:100%; border-radius:8px; border:1px solid var(--border); background:#fff; }
+  .graph-panel { position:sticky; top:16px; }
+  .graph-tabs { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+  .graph-tabs button { background:var(--panel2); color:var(--muted); border:1px solid var(--border); font-size:12px; padding:6px 12px; }
+  .graph-tabs button.active { background:var(--accent); color:white; border-color:var(--accent); }
+  .graph-title { font-size:13px; color:var(--muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:.05em; }
+  tr[data-clickable] { cursor:pointer; }
+  tr[data-clickable]:hover { background: var(--panel2); }
+  tr.row-selected { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .empty-state { color: var(--muted); text-align:center; padding: 60px 20px; }
+  .overlay-img { cursor: zoom-in; }
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:1000; overflow:auto; text-align:center; }
+  .lightbox.open { display:block; }
+  .lightbox img { cursor: zoom-out; margin: 24px auto; display:block; max-width:none; }
+  .lightbox .lb-hint { position:fixed; top:10px; left:50%; transform:translateX(-50%); color:#cfd6e6; font-size:12px; background:rgba(0,0,0,.5); padding:4px 10px; border-radius:6px; }
+  .lightbox .lb-close { position:fixed; top:10px; right:16px; color:#fff; font-size:22px; cursor:pointer; background:rgba(255,255,255,.1); border-radius:50%; width:34px; height:34px; line-height:34px; text-align:center; }
+  .flap-tabs { display:flex; gap:6px; margin-bottom: 14px; }
+  .flap-tabs button { flex:1; }
+  .flap-tabs button.active { background: var(--accent); color:white; }
+  .flap-tabs button:not(.active) { background: var(--panel2); color:var(--muted); }
+  small.hint { display:block; color:var(--muted); font-size:11px; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lb-hint">Scroll para navegar · clica para fechar</div>
+  <div class="lb-close" onclick="closeLightbox(event)">✕</div>
+  <img id="lightboxImg" src="">
+</div>
+<header>
+  <h1>✈️ SHF Performance Tables — C-295M</h1>
+  <div class="sub">Short Field Takeoff · Gradiente OEI = 2.3% · Drag Index = 18</div>
+</header>
+<div class="layout">
+  <div class="sidebar">
+    <div class="card">
+      <h3>Aeródromos</h3>
+      <div id="airportList"></div>
+      <button class="btn-secondary" style="width:100%;margin-top:10px;" onclick="showAddForm()">+ Adicionar aeródromo</button>
+      <div id="addForm" style="display:none; margin-top:10px;">
+        <label>ICAO</label><input id="f_icao" placeholder="LPGR">
+        <label>RWY</label><input id="f_rwy" placeholder="09/27">
+        <label>Elevação (ft)</label><input id="f_elev" type="number" placeholder="86">
+        <label>LDG (ft)</label><input id="f_ldg" type="number" placeholder="4160">
+        <label>T/O (ft)</label><input id="f_to" type="number" placeholder="4350">
+        <label>Width (ft)</label><input id="f_width" type="number" placeholder="98">
+        <button class="btn-primary" onclick="saveAirport()">Guardar</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Configuração Flaps</h3>
+      <div class="flap-tabs">
+        <button id="flap10btn" class="active" onclick="setFlap(10)">10°</button>
+        <button id="flap15btn" onclick="setFlap(15)">15°</button>
+      </div>
+      <small class="hint">Flap 15° fica disponível quando eu digitalizar esses gráficos.</small>
+      <button class="btn-primary" onclick="runCompute()">Calcular tabelas</button>
+    </div>
+  </div>
+  <div class="main" id="main">
+    <div class="empty-state">Seleciona um aeródromo e carrega em "Calcular tabelas".</div>
+  </div>
+</div>
+
+<script>
+let airports = {};
+let selectedIcao = null;
+let currentFlap = 10;
+
+async function loadAirports() {
+  const r = await fetch('/api/airports');
+  airports = await r.json();
+  renderAirportList();
+}
+
+function renderAirportList() {
+  const el = document.getElementById('airportList');
+  const keys = Object.keys(airports).sort();
+  if (keys.length === 0) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:12px;">Nenhum aeródromo carregado.</div>';
+    return;
+  }
+  el.innerHTML = keys.map(k => `
+    <div class="airport-row ${k===selectedIcao?'active':''}" onclick="selectAirport('${k}')">
+      <span>${k} <span style="color:var(--muted)">· RWY ${airports[k].rwy || '-'}</span></span>
+      <button class="btn-danger" onclick="event.stopPropagation(); deleteAirport('${k}')">x</button>
+    </div>
+  `).join('');
+}
+
+function selectAirport(icao) {
+  selectedIcao = icao;
+  renderAirportList();
+}
+
+function showAddForm() {
+  document.getElementById('addForm').style.display = 'block';
+}
+
+async function saveAirport() {
+  const payload = {
+    icao: document.getElementById('f_icao').value,
+    rwy: document.getElementById('f_rwy').value,
+    elev_ft: document.getElementById('f_elev').value,
+    ldg_ft: document.getElementById('f_ldg').value,
+    to_ft: document.getElementById('f_to').value,
+    width_ft: document.getElementById('f_width').value,
+  };
+  await fetch('/api/airports', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+  document.getElementById('addForm').style.display='none';
+  ['f_icao','f_rwy','f_elev','f_ldg','f_to','f_width'].forEach(id=>document.getElementById(id).value='');
+  await loadAirports();
+  selectAirport(payload.icao.toUpperCase());
+}
+
+async function deleteAirport(icao) {
+  await fetch('/api/airports/'+icao, {method:'DELETE'});
+  if (selectedIcao === icao) selectedIcao = null;
+  await loadAirports();
+}
+
+function setFlap(f) {
+  currentFlap = f;
+  document.getElementById('flap10btn').classList.toggle('active', f===10);
+  document.getElementById('flap15btn').classList.toggle('active', f===15);
+}
+
+async function runCompute() {
+  if (!selectedIcao) { alert('Escolhe um aeródromo primeiro.'); return; }
+  const main = document.getElementById('main');
+  main.innerHTML = '<div class="empty-state">A calcular…</div>';
+  const r = await fetch('/api/compute', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({icao: selectedIcao, flap: currentFlap})
+  });
+  const data = await r.json();
+  if (data.error) { main.innerHTML = `<div class="empty-state">${data.error}</div>`; return; }
+  renderResults(data);
+}
+
+function renderResults(data) {
+  const main = document.getElementById('main');
+  const ap = data.airport;
+  let html = `<div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+    <div>
+      <h3 style="margin:0 0 4px 0;">${data.icao}</h3>
+      <div style="font-size:13px; color:var(--muted)">RWY ${ap.rwy || '-'} · ELEV ${ap.elev_ft}' · Flap ${data.flap}° · Gradiente OEI ${data.gradient_required}% · Drag Index ${data.drag_index}</div>
+    </div>
+    <button class="btn-secondary" onclick="exportPDF()">Exportar PDF (A5)</button>
+  </div>`;
+
+  window._lastComputeData = data;
+  window._viewState = window._viewState || {};
+
+  for (const temp of data.temps) {
+    const res = data.results[temp];
+    const blockId = `t${temp}`;
+    const usableRows = res.rows.filter(r => !r.exceeds_mtow);
+    const defaultRowIdx = usableRows.length ? res.rows.indexOf(usableRows[0]) : 0;
+    window._viewState[blockId] = window._viewState[blockId] || { tab: 'mtow', row: defaultRowIdx };
+
+    html += `<div class="temp-block">
+      <div class="temp-header">
+        <span class="badge">${temp}°C</span>
+        <span>MTOW(1 ENG) = <span class="mtow-val">${res.mtow_1eng_kg.toLocaleString()} KG</span></span>
+      </div>
+      <div class="grid2">
+        <div class="card" style="overflow-x:auto;">
+          <table>
+            <thead><tr>
+              <th>WEIGHT</th><th>CFL (ft)</th><th>Vcef</th><th>T/O RUN (ft)</th><th>LDG ROLL</th>
+              <th>VMCG</th><th>V1</th><th>Vre</th><th>Vmca</th><th>Vr</th><th>V2shf</th>
+              <th>Vref_shf</th><th>V2norm</th><th>V2shf+17</th>
+            </tr></thead>
+            <tbody id="${blockId}_tbody">
+              ${res.rows.map((row,i) => renderRow(blockId, res, row, i)).join('')}
+            </tbody>
+          </table>
+          <small class="hint">Clica numa célula da linha (CFL / T/O Run / Vre / Vcef) para ver o gráfico desse peso.</small>
+        </div>
+        <div class="graph-panel">
+          <div class="graph-tabs" id="${blockId}_tabs">
+            <button data-tab="mtow" onclick="setTab('${blockId}','mtow')">MTOW(1 ENG)</button>
+            <button data-tab="vmcg" onclick="setTab('${blockId}','vmcg')">VMCG</button>
+            <button data-tab="cfl" onclick="setTab('${blockId}','cfl')" ${data.cfl_torun_enabled?'':'disabled'}>CFL</button>
+            <button data-tab="torun" onclick="setTab('${blockId}','torun')" ${data.cfl_torun_enabled?'':'disabled'}>T/O RUN</button>
+            <button data-tab="vre" onclick="setTab('${blockId}','vre')" ${data.fig327_enabled?'':'disabled'}>Vre</button>
+            <button data-tab="vcef" onclick="setTab('${blockId}','vcef')" ${data.fig327_enabled?'':'disabled'}>Vcef</button>
+            <button data-tab="vmca" onclick="setTab('${blockId}','vmca')" ${data.vmca_enabled?'':'disabled'}>Vmca</button>
+            <button data-tab="vr" onclick="setTab('${blockId}','vr')" ${data.fig331_enabled?'':'disabled'}>Vr / V2</button>
+            <button data-tab="v2norm" onclick="setTab('${blockId}','v2norm')" ${data.v2norm_enabled?'':'disabled'}>V2norm</button>
+            <button data-tab="vref_shf" onclick="setTab('${blockId}','vref_shf')" ${data.vref_enabled?'':'disabled'}>Vref_shf</button>
+            <button data-tab="ldg_roll" onclick="setTab('${blockId}','ldg_roll')" ${data.ldgroll_enabled?'':'disabled'}>LDG ROLL</button>
+          </div>
+          <div class="card">
+            <div class="graph-title" id="${blockId}_graph_title"></div>
+            <img class="overlay-img" id="${blockId}_graph_img" style="max-height:80vh;object-fit:contain;" onclick="openLightbox(this.src)">
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+  main.innerHTML = html;
+  for (const temp of data.temps) {
+    updateGraphPanel(`t${temp}`);
+  }
+}
+
+function renderRow(blockId, res, row, i) {
+  const cflCell = row.cfl_kft!=null ? Math.round(row.cfl_kft*1000).toLocaleString() : '—';
+  const torunCell = row.to_run_kft!=null ? Math.round(row.to_run_kft*1000).toLocaleString() : '—';
+  return `
+    <tr class="${row.exceeds_mtow ? 'exceeds':''}" id="${blockId}_row${i}">
+      <td>${row.weight.toLocaleString()}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'cfl')">${cflCell}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vcef')">${row.vcef ?? '—'}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'torun')">${torunCell}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'ldg_roll')">${row.ldg_roll ?? '—'}</td>
+      <td>${res.vmcg_kt}</td>
+      <td>${row.v1 ?? '—'}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vre')">${row.vre ?? '—'}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vmca')">${row.vmca ?? '—'}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vr')">${row.vr ?? '—'}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vr')">${row.v2shf ?? '—'}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vref_shf')">${row.vref_shf ?? '—'}</td>
+      <td data-clickable onclick="selectRow('${blockId}', ${i}, 'v2norm')">${row.v2norm ?? '—'}</td>
+      <td>${row.v2shf_17 ?? '—'}</td>
+    </tr>`;
+}
+
+function setTab(blockId, tab) {
+  window._viewState[blockId].tab = tab;
+  updateGraphPanel(blockId);
+}
+
+function selectRow(blockId, rowIndex, tab) {
+  window._viewState[blockId].row = rowIndex;
+  window._viewState[blockId].tab = tab;
+  updateGraphPanel(blockId);
+}
+
+function updateGraphPanel(blockId) {
+  const data = window._lastComputeData;
+  const temp = blockId.replace('t','');
+  const res = data.results[temp];
+  const state = window._viewState[blockId];
+
+  document.querySelectorAll(`#${blockId}_tabs button`).forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === state.tab);
+  });
+  document.querySelectorAll(`#${blockId}_tbody tr`).forEach(tr => tr.classList.remove('row-selected'));
+
+  let title = '', url = '';
+  if (state.tab === 'mtow') {
+    title = `MTOW(1 ENG) — ${temp}°C`;
+    url = res.overlay_url;
+  } else if (state.tab === 'vmcg') {
+    title = `VMCG — ${temp}°C`;
+    url = res.vmcg_overlay_url;
+  } else if (state.tab === 'cfl' || state.tab === 'torun') {
+    const row = res.rows[state.row];
+    const rowEl = document.getElementById(`${blockId}_row${state.row}`);
+    if (rowEl) rowEl.classList.add('row-selected');
+    if (state.tab === 'cfl') {
+      title = `CFL @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+      url = row.cfl_overlay_url;
+    } else {
+      title = `T/O RUN @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+      url = row.to_run_overlay_url;
+    }
+  } else if (state.tab === 'vre' || state.tab === 'vcef') {
+    const row = res.rows[state.row];
+    const rowEl = document.getElementById(`${blockId}_row${state.row}`);
+    if (rowEl) rowEl.classList.add('row-selected');
+    if (state.tab === 'vre') {
+      title = `Vre @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+      url = row.vre_overlay_url;
+    } else {
+      title = `Vcef @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+      url = row.vcef_overlay_url;
+    }
+  } else if (state.tab === 'vmca') {
+    const row = res.rows[state.row];
+    const rowEl = document.getElementById(`${blockId}_row${state.row}`);
+    if (rowEl) rowEl.classList.add('row-selected');
+    title = `Vmca @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+    url = row.vmca_overlay_url;
+  } else if (state.tab === 'vr') {
+    const row = res.rows[state.row];
+    const rowEl = document.getElementById(`${blockId}_row${state.row}`);
+    if (rowEl) rowEl.classList.add('row-selected');
+    title = `Vr = ${row.vr ?? '—'} kt · V2 = ${row.v2shf ?? '—'} kt @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+    url = row.vr_overlay_url;
+  } else if (state.tab === 'v2norm') {
+    const row = res.rows[state.row];
+    const rowEl = document.getElementById(`${blockId}_row${state.row}`);
+    if (rowEl) rowEl.classList.add('row-selected');
+    title = `V2norm = ${row.v2norm ?? '—'} kt @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+    url = row.v2norm_overlay_url;
+  } else if (state.tab === 'vref_shf') {
+    const row = res.rows[state.row];
+    const rowEl = document.getElementById(`${blockId}_row${state.row}`);
+    if (rowEl) rowEl.classList.add('row-selected');
+    title = `Vref_shf = ${row.vref_shf ?? '—'} kt @ ${row.weight.toLocaleString()} kg`;
+    url = row.vref_shf_overlay_url;
+  } else if (state.tab === 'ldg_roll') {
+    const row = res.rows[state.row];
+    const rowEl = document.getElementById(`${blockId}_row${state.row}`);
+    if (rowEl) rowEl.classList.add('row-selected');
+    title = `LDG ROLL (não corrigido) = ${row.ldg_roll ?? '—'} ft @ ${row.weight.toLocaleString()} kg — ${temp}°C`;
+    url = row.ldg_roll_overlay_url;
+  }
+  document.getElementById(`${blockId}_graph_title`).textContent = title;
+  const img = document.getElementById(`${blockId}_graph_img`);
+  img.src = url ? `${url}?t=${Date.now()}` : '';
+}
+
+function printRowCells(row, res) {
+  const cflCell = row.cfl_kft!=null ? Math.round(row.cfl_kft*1000).toLocaleString() : '—';
+  const torunCell = row.to_run_kft!=null ? Math.round(row.to_run_kft*1000).toLocaleString() : '—';
+  return `<tr class="${row.exceeds_mtow ? 'exceeds':''}">
+      <td>${row.weight.toLocaleString()}</td>
+      <td>${cflCell}</td>
+      <td>${row.vcef ?? '—'}</td>
+      <td>${torunCell}</td>
+      <td>${row.ldg_roll ?? '—'}</td>
+      <td>${res.vmcg_kt}</td>
+      <td>${row.v1 ?? '—'}</td>
+      <td>${row.vre ?? '—'}</td>
+      <td>${row.vmca ?? '—'}</td>
+      <td>${row.vr ?? '—'}</td>
+      <td>${row.v2shf ?? '—'}</td>
+      <td>${row.vref_shf ?? '—'}</td>
+      <td>${row.v2norm ?? '—'}</td>
+      <td>${row.v2shf_17 ?? '—'}</td>
+    </tr>`;
+}
+
+function exportPDF() {
+  const data = window._lastComputeData;
+  if (!data) return;
+  const ap = data.airport;
+  const headerCols = `<th>WEIGHT</th><th>CFL (ft)</th><th>Vcef</th><th>T/O RUN (ft)</th><th>LDG ROLL</th>
+              <th>VMCG</th><th>V1</th><th>Vre</th><th>Vmca</th><th>Vr</th><th>V2shf</th>
+              <th>Vref_shf</th><th>V2norm</th><th>V2shf+17</th>`;
+  let tables = '';
+  for (const temp of data.temps) {
+    const res = data.results[temp];
+    tables += `
+      <div class="ptable">
+        <div class="ptitle">${data.icao} · ${temp}°C · MTOW(1 ENG) = ${res.mtow_1eng_kg.toLocaleString()} KG</div>
+        <table>
+          <thead><tr>${headerCols}</tr></thead>
+          <tbody>${res.rows.map(row => printRowCells(row, res)).join('')}</tbody>
+        </table>
+      </div>`;
+  }
+  const html = `<!doctype html><html lang="pt"><head><meta charset="utf-8">
+    <title>${data.icao} — SHF Tables</title>
+    <style>
+      @page { size: A5 landscape; margin: 8mm; }
+      * { box-sizing: border-box; }
+      body { font-family: Arial, sans-serif; color:#111; margin:0; }
+      .psub { font-size:10px; color:#555; margin-bottom:8px; }
+      .ptable { page-break-after: always; margin-bottom: 6px; }
+      .ptable:last-child { page-break-after: auto; }
+      .ptitle { font-size:12px; font-weight:700; margin-bottom:4px; }
+      table { width:100%; border-collapse:collapse; font-size:9px; }
+      th, td { border:1px solid #999; padding:2px 3px; text-align:center; }
+      th { background:#eee; }
+      tr.exceeds { opacity:0.4; }
+    </style>
+    </head><body>
+    <div class="psub">RWY ${ap.rwy || '-'} · ELEV ${ap.elev_ft}' · Flap ${data.flap}° · Gradiente OEI ${data.gradient_required}% · Drag Index ${data.drag_index}</div>
+    ${tables}
+    </body></html>`;
+
+  let frame = document.getElementById('pdfExportFrame');
+  if (!frame) {
+    frame = document.createElement('iframe');
+    frame.id = 'pdfExportFrame';
+    frame.style.position = 'fixed';
+    frame.style.right = '0';
+    frame.style.bottom = '0';
+    frame.style.width = '0';
+    frame.style.height = '0';
+    frame.style.border = '0';
+    document.body.appendChild(frame);
+  }
+  const doc = frame.contentWindow.document;
+  doc.open();
+  doc.write(html);
+  doc.close();
+  frame.contentWindow.focus();
+  setTimeout(() => frame.contentWindow.print(), 250);
+}
+
+function openLightbox(src) {
+  if (!src) return;
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(e) {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightboxImg').src = '';
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(e); });
+
+loadAirports();
+</script>
+</body>
+</html>

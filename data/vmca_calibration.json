@@ -1,0 +1,26 @@
+{
+  "vmca_flap10_shf_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\VMCA_sheet1.png",
+    "panel1_temp_axis": {"y_at_60C": 1098.52, "px_per_degC": 8.925},
+    "panel1_points_file": "vmca_panel1_points.json",
+    "panel1_curve_order_kft": [-1, 0, 2, 4],
+    "panel1_curve_labels": ["-1", "SL", "2", "4"],
+    "panel2_baseline_y": 794.88,
+    "panel2_baseline_weight_kg": 18000,
+    "panel2_weight_axis": {"y_at_18000": 794.88, "px_per_1000kg": 35.714},
+    "panel2_points_file": "vmca_panel2_points.json",
+    "panel2_diagonal_order_kg": [12, 14, 16, 18, 20, 22, 24],
+    "panel2_quadricula_px": 17.75,
+    "panel2_shift_table_kg_quad": {
+      "16000": -2.75,
+      "16500": -2.0,
+      "17000": -1.0,
+      "17500": -0.5,
+      "18000": 0.0,
+      "18500": 0.25,
+      "19000": 0.5
+    },
+    "airspeed_axis": {"m": -0.054560, "b": 130.8924},
+    "note": "Painel1: eixo Y=temperatura (mesma familia -1/SL/2/4 dos outros graficos, output X partilhado). Painel2: X partilhado entra a altura da BASELINE (peso de referencia 18000kg); para outro peso, aplica-se o deslocamento real (X_no_peso_alvo menos X_na_baseline) de cada curva de peso impressa (12-24, tracado denso em vmca_panel2_points.json, curvas verdadeiramente curvas nao retas), interpolado entre as duas curvas vizinhas pelo peso; a velocidade final le-se na posicao X resultante atraves do eixo CALIBRATED AIRSPEED (valido em qualquer altura via as gridlines verticais)."
+  }
+}

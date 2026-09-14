@@ -1,0 +1,25 @@
+{
+  "cfl_flap10_shf_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\CFL_sheet1.png",
+    "panel1_temp_axis": {"y_at_60C": 462, "px_per_degC": 8.3},
+    "panel1_curves": {
+      "-1": {"m": -0.1489, "b": 661.64},
+      "SL": {"m": -0.1416, "b": 668.97},
+      "2":  {"m": -0.1292, "b": 672.20},
+      "4":  {"m": -0.4949, "b": 1060.85},
+      "6":  {"m": -1.3224, "b": 2029.63},
+      "8":  {"m": -1.2691, "b": 2074.37},
+      "10": {"m": -1.1968, "b": 2102.20},
+      "12": {"m": -1.2485, "b": 2233.89},
+      "14": {"m": -1.2175, "b": 2291.83}
+    },
+    "panel1_curve_order_kft": [-1, 0, 2, 4, 6, 8, 10, 12, 14],
+    "panel1_curve_labels": ["-1", "SL", "2", "4", "6", "8", "10", "12", "14"],
+    "panel1_note": "-1/SL/2 recalibrados com alta precisao a partir do PDF original (pagina 3-62). 4/6/8/10/12/14 escalados a partir da digitalizacao anterior (JPEG), menos criticos para aerodromos de baixa altitude.",
+    "panel2_weight_order": [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23.2],
+    "panel2_note": "panel2_weight_curves removido - usa-se exclusivamente panel2_points (seguimento denso pixel-a-pixel a partir do PDF), muito mais preciso que ajustar uma reta por curva.",
+    "output_axis": {"y_at_6kft": 1176, "px_per_kft": 166.25, "axis_x": 1420},
+    "panel1_left": 476,
+    "panel2_right": 1420
+  }
+}

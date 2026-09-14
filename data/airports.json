@@ -1,0 +1,44 @@
+{
+  "LPGR": {
+    "rwy": "09/27",
+    "elev_ft": 86,
+    "ldg_ft": 4160,
+    "to_ft": 4350,
+    "width_ft": 98
+  },
+  "LPFL": {
+    "rwy": "18/36",
+    "elev_ft": 108.0,
+    "ldg_ft": 4403.0,
+    "to_ft": 4554.0,
+    "width_ft": 98.0
+  },
+  "LPSJ": {
+    "rwy": "13/31",
+    "elev_ft": 335.0,
+    "ldg_ft": 4167.0,
+    "to_ft": 4632.0,
+    "width_ft": 147.0
+  },
+  "LPPI": {
+    "rwy": "09/27",
+    "elev_ft": 115.0,
+    "ldg_ft": 5430.0,
+    "to_ft": 5725.0,
+    "width_ft": 148.0
+  },
+  "LPHR": {
+    "rwy": "10/28",
+    "elev_ft": 117.0,
+    "ldg_ft": 5233.0,
+    "to_ft": 5404.0,
+    "width_ft": 148.0
+  },
+  "LPCR": {
+    "rwy": "11/29",
+    "elev_ft": 61.0,
+    "ldg_ft": 2497.0,
+    "to_ft": 2628.0,
+    "width_ft": 98.0
+  }
+}

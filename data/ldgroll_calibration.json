@@ -1,0 +1,31 @@
+{
+  "ldgroll_flap23_shf_ldg": {
+    "source_image": "10º FLAPS\\ATERRAGEM\\hires\\LDGROLL_sheet1.png",
+    "panel1_temp_axis": {"y_at_60C": 479.5, "px_per_degC": 7.05},
+    "panel1_curves": {
+      "-1": {"m": -0.27946, "b": 996.384},
+      "SL": {"m": -0.28929, "b": 1025.179},
+      "1":  {"m": -0.29911, "b": 1054.473},
+      "2":  {"m": -0.30982, "b": 1085.795},
+      "4":  {"m": -0.33214, "b": 1151.464},
+      "6":  {"m": -0.36, "b": 1226.5},
+      "8":  {"m": -0.38, "b": 1297.5},
+      "10": {"m": -0.42, "b": 1394.5},
+      "12": {"m": -0.45, "b": 1485.5},
+      "14": {"m": -0.48, "b": 1581.5}
+    },
+    "panel1_curve_order_kft": [-1, 0, 1, 2, 4, 6, 8, 10, 12, 14],
+    "panel1_curve_labels": ["-1", "SL", "1", "2", "4", "6", "8", "10", "12", "14"],
+    "panel1_note": "Painel identico ao de CFL/TORUN mas linhas praticamente retas nesta figura (ajuste linear m,b direto, sem necessidade de pontos densos). Confirmada visualmente a existencia de uma curva SEM numero impresso entre 'SL' e '2' (mesma situacao encontrada na Fig 3-13 do V2norm) -- e a curva '1' (1000ft), com o mesmo espacamento das restantes (o grafico tem uma curva a cada 1000ft, so alternando os numeros que sao impressos: -1,SL,1(sem nr),2,3(sem nr),4,5(sem nr),6...14). So -1/SL/1/2/4 foram calibrados com precisao alta (2 pontos limpos bem separados, y=590 e y=1150); 6/8/10/12/14 com precisao menor (pontos a y=1100/1150, menos criticos pois nenhum aerodromo atual passa dos 400ft).",
+
+    "panel2_weight_order": [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23.2],
+    "panel2_points_file": "ldgroll_panel2_points.json",
+    "panel2_note": "12 curvas de peso, todas distintas e tracadas (12 a 23.2, so 12/16/18/20/22/23.2 tem numero impresso no grafico; as restantes -13,14,15,17,19,21- existem mas sem rotulo, confirmado por contagem de clusters de pixels em varias colunas). Pontos densos amostrados a cada 10px de x=780 a 1230 (cobre bem a janela real de leitura ~x=780-830 para os aerodromos atuais).",
+
+    "output_axis": {"y_at_2_5kft": 1293.5, "px_per_kft": 281.5},
+    "panel1_left": 571,
+    "panel2_right": 1295,
+
+    "note": "Digitalizado a partir da Figura 8-8 Sheet 1 de 2 (Landing Ground Roll, Short Field Landing, Flaps 23). Da o valor NAO CORRIGIDO do landing ground roll -- a Sheet 2 (correcoes: threshold speed increase, reverse/ground idle, runway slope, wind, RCR) fica por implementar (mesma limitacao que CFL/TO RUN, que tambem so mostram valor nao corrigido)."
+  }
+}

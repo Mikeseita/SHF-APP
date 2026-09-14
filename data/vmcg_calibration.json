@@ -1,0 +1,25 @@
+{
+  "vmcg_flap10_shf_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\VMCG_sheet1.png",
+    "temp_axis": {"x_at_neg40": 382, "px_per_degC": 11.5},
+    "speed_axis": {"y_at_95kt": 483, "px_per_kt": 22.3},
+    "curves": {
+      "-1": {"m": 0.1674, "b": 600.89},
+      "SL": {"m": 0.1435, "b": 607.69},
+      "2":  {"m": 0.3717, "b": 434.50},
+      "4":  {"m": 0.4894, "b": 342.60},
+      "6":  {"m": 0.5387, "b": 370.90},
+      "8":  {"m": 0.4930, "b": 497.80},
+      "10": {"m": 0.4923, "b": 574.00},
+      "12": {"m": 0.4577, "b": 684.50},
+      "14": {"m": 0.3697, "b": 843.30}
+    },
+    "curve_order_kft": [-1, 0, 2, 4, 6, 8, 10, 12, 14],
+    "curve_labels": ["-1", "SL", "2", "4", "6", "8", "10", "12", "14"],
+    "panel1_note": "-1/SL recalibrados com alta precisao a partir do PDF (pag 3-68). 2 tem menos pontos. 4-14 escalados da digitalizacao anterior.",
+    "width_correction": {
+      "reference_width_ft": 77,
+      "note": "Between 77 and 67 ft: +1 kt per 2 ft below 77. Between 67 and 57 ft: +5 kt flat plus +3 kt per 2 ft below 67."
+    }
+  }
+}

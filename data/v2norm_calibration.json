@@ -1,0 +1,24 @@
+{
+  "v2norm_flap10_normal_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\FigV2NORM_sheet1.png",
+    "panel1_temp_axis": {"y_at_m40C": 439.5, "px_per_degC": 5.4},
+    "panel1_points_file": "v2norm_panel1_points.json",
+    "panel1_curve_order_kft": [-1, 0, 1, 2],
+    "panel1_curve_labels": ["-1", "SL", "1", "2"],
+
+    "v2_axis": {"y_at_80kt": 1691.5, "px_per_kt": 5.4},
+
+    "min_v2_weight_curves_kg": {
+      "12000": {"x1": 1355, "y1": 1847.0, "x2": 1376, "y2": 1857.5},
+      "14000": {"x1": 1355, "y1": 1831.5, "x2": 1376, "y2": 1841.5},
+      "16000": {"x1": 1355, "y1": 1817.5, "x2": 1376, "y2": 1826.5},
+      "18000": {"x1": 1355, "y1": 1811.0, "x2": 1376, "y2": 1818.5}
+    },
+    "min_v2_weight_order": [12000, 14000, 16000, 18000],
+
+    "v2_baseline_weight_axis": {"x_at_0kg": 242.5, "px_per_kg": 0.022167},
+    "v2_baseline_curve_points": [[12000, 1740.5], [14000, 1777.0], [16000, 1812.7], [18000, 1846.2], [20000, 1878.5]],
+
+    "note": "Digitalizado a partir da Figura 3-13 (Takeoff Speeds, Normal Takeoff). So usado para V2 e V2min (a Vr normal fica para depois). Painel1 (temp/altitude -> X partilhado) tem curvas -1/SL/1/2 tracadas. A curva '1' (1000ft) existe no grafico impresso mas SEM numero -- confirmada visualmente pelo utilizador entre 'SL' e '2'. CORRECAO IMPORTANTE: numa versao anterior a curva guardada como 'SL' estava na verdade a seguir a curva '1' (erro de identificacao do seed de tracado) -- a verdadeira 'SL' fica uma posicao mais a direita (maior x). Confirmado por leitura pixel-a-pixel nas 3 temperaturas (709.5/763.5/817.5): ordem correta da esquerda para a direita e sempre 2 < 1 < SL < -1, com gaps de ~10-20px entre elas (NAO fundidas dentro do intervalo pratico 10-30C). Elevacao interpola entre SL(0ft) e '1'(1000ft) para elevacoes ate 1000ft (cobre todos os aerodromos atuais), dando um pequeno desvio correto de SL na direcao de '1' proporcional a elevacao real (ex: 86ft ~ 8.6% do caminho ate '1'). Texto do manual (pag 3-23, 'Use of Graphs Figure 3-13') confirma: o painel 'CLIMBOUT AIRSPEED - V2 - KIAS' alimentado pela linha X partilhada (curvas de peso 12/14/16/18) da o MINIMO de V2 (min_v2_*), NAO o V2 principal. O V2 principal vem de um mecanismo separado: peso (eixo proprio 12-24 mil kg, x=508.5 a 774.5px) -> linha diagonal unica (BASELINE) -> valor de V2 correspondente a razao nominal V2/VSR=1.13 (a app usa sempre esta razao nominal, ja que nao tem input do V2/VSR; o leque de linhas-guia impresso para corrigir 1.13->1.23 nao e modelado). Validado contra o exemplo do proprio manual (pag 3-23: peso 14000kg, OAT 32C, alt 2000ft, razao 1.2 -> V2=100kt): o nosso V2 baseline(1.13) a 14000kg da 95.8kt, mais baixo como esperado para uma razao menor. IMPORTANTE sobre min_v2_weight_curves_kg: as 4 curvas 12/14/16/18 estao visualmente demasiado proximas para distinguir na janela real de leitura (x~1292-1316, perto do 'SL'); so se separam claramente a partir de x~1350-1376. Por isso cada curva e calibrada com 2 pontos limpos NESSA zona (x=1355/1376) e extrapolada linearmente para tras ate x~1292-1316 (nao usar pontos dentro da zona fundida, dava valores errados iguais para 14/16/18). V2norm_final = max(V2 baseline, Min V2)."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "vre_vcef_flap10_shf_to": {
+    "source_image": "10º FLAPS\\DESCOLAGEM\\hires\\FIG327_sheet1.png",
+    "panel1_temp_axis": {"x_at_neg20": 308.0, "px_per_degC": 4.0125},
+    "panel1_points_file": "fig327_panel1_points.json",
+    "panel1_curve_order_kft": [-1, 0, 2, 4, 6, 8, 10, 12, 14],
+    "panel1_curve_labels": ["-1", "SL", "2", "4", "6", "8", "10", "12", "14"],
+    "panel2_runway_curves": {
+      "1.0": {"m": -1.67232, "b": 1975.18},
+      "1.2": {"m": -1.34670, "b": 1805.75},
+      "1.4": {"m": -1.19800, "b": 1752.59},
+      "1.6": {"m": -1.10873, "b": 1734.41},
+      "1.8": {"m": -1.02807, "b": 1710.21},
+      "2.0": {"m": -0.96710, "b": 1695.85},
+      "2.2": {"m": -0.91344, "b": 1680.68},
+      "2.4": {"m": -0.86756, "b": 1667.18},
+      "2.6": {"m": -0.82216, "b": 1648.47},
+      "2.8": {"m": -0.77223, "b": 1619.00},
+      "3.0": {"m": -0.72272, "b": 1585.51},
+      "3.5": {"m": -0.62215, "b": 1515.91},
+      "4.0": {"m": -0.55926, "b": 1479.92},
+      "4.5": {"m": -0.51472, "b": 1458.26},
+      "5.0": {"m": -0.49377, "b": 1461.66},
+      "6.0": {"m": -0.39824, "b": 1377.90}
+    },
+    "panel2_curve_tip_y": {
+      "1.0": 554, "1.2": 560, "1.4": 560, "1.6": 560, "1.8": 560, "2.0": 560,
+      "2.2": 560, "2.4": 560, "2.6": 560, "2.8": 560, "3.0": 554,
+      "3.5": 605, "4.0": 647, "4.5": 694, "5.0": 735, "6.0": 795
+    },
+    "panel3_weight_curves": {
+      "12": {"m": -1.07598, "b": 2596.29},
+      "14": {"m": -0.97004, "b": 2505.87},
+      "16": {"m": -0.87845, "b": 2426.48},
+      "18": {"m": -0.81492, "b": 2376.09},
+      "20": {"m": -0.77949, "b": 2360.57},
+      "22": {"m": -0.67910, "b": 2270.50},
+      "22.3": {"m": -0.66420, "b": 2258.30}
+    },
+    "panel3_weight_curve_order": [12, 14, 16, 18, 20, 22, 22.3],
+    "panel3_speed_axis": {"y_at_120kt": 1079.5, "px_per_kt": 9.721},
+    "panel3_x_bounds": {"x_min": 700, "x_max": 1470},
+    "note": "Painel1: eixo X = temperatura (-20 a 60C), curvas de altitude -1..14 (mesma familia dos outros graficos), output = altura Y partilhada com o painel2. Painel2: curvas de comprimento de pista disponivel (CFL ou runway length), em milhares de pes, passo 0.2 entre 1.0-3.0 e depois 3.5/4/4.5/5/6; output = X partilhado com o painel3. Painel3: familia de curvas de peso (12..22.3 mil kg) a partir de um ponto comum; output = Y -> eixo de velocidade (50-120kt)."
+  }
+}
