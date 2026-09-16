@@ -171,6 +171,8 @@ def compute():
                 row["to_run_overlay_url"] = f"/static/overlays/{torun_overlay_name}"
                 row["to_run_reliable"] = torun_c["reliable"]
 
+            vre_speed_kt = None
+            vcef_speed_kt = None
             if FIG327_ENABLED and runway_to_ft:
                 vre_c = f327.compute_speed(
                     FIG327_CHART_KEY, elevation_ft, temp, w, runway_to_ft / 1000.0
@@ -179,6 +181,11 @@ def compute():
                 f327.draw_overlay(FIG327_CHART_KEY, vre_c, os.path.join(OVERLAY_DIR, vre_overlay_name))
                 row["vre"] = vre_c["speed_label"]
                 row["vre_overlay_url"] = f"/static/overlays/{vre_overlay_name}"
+                # Off-chart means the real Vre is at least 110kt (the chart's
+                # printed ceiling); Vr never gets close to that in practice, so
+                # using 110 as a stand-in still lets Vr be the binding upper
+                # bound for V1 instead of blocking the calculation entirely.
+                vre_speed_kt = vre_c["speed_kt"] if vre_c["speed_kt"] is not None else 110.0
 
                 if row["cfl_kft"]:
                     vcef_c = f327.compute_speed(
@@ -188,6 +195,7 @@ def compute():
                     f327.draw_overlay(FIG327_CHART_KEY, vcef_c, os.path.join(OVERLAY_DIR, vcef_overlay_name))
                     row["vcef"] = vcef_c["speed_label"]
                     row["vcef_overlay_url"] = f"/static/overlays/{vcef_overlay_name}"
+                    vcef_speed_kt = vcef_c["speed_kt"]
 
             if VMCA_ENABLED:
                 vmca_c = vmca_chart.compute_vmca(VMCA_CHART_KEY, elevation_ft, temp, w)
@@ -229,6 +237,19 @@ def compute():
                 wpc.draw_overlay(LDGROLL_CAL, ldgroll_c, LDGROLL_CAL["source_image"], os.path.join(OVERLAY_DIR, ldgroll_overlay_name))
                 row["ldg_roll"] = round(ldgroll_c["value"] * 1000) if ldgroll_c["reliable"] else None
                 row["ldg_roll_overlay_url"] = f"/static/overlays/{ldgroll_overlay_name}"
+
+            # V1: the highest speed that is simultaneously <= Vre and <= Vr
+            # (accelerate-stop limits) and >= Vmcg and >= Vcef (controllability
+            # floors). If that window is empty (or an input is missing), no
+            # valid V1 exists for this weight/temp.
+            vr_kt = row["vr"]
+            if None not in (vre_speed_kt, vcef_speed_kt, vr_kt):
+                v1_upper = min(vre_speed_kt, vr_kt)
+                v1_lower = max(vmcg_c["vmcg_kt"], vcef_speed_kt)
+                row["v1"] = round(v1_upper, 1) if v1_upper >= v1_lower else None
+            else:
+                row["v1"] = None
+
             rows.append(row)
 
         results[str(temp)] = {

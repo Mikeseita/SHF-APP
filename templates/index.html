@@ -256,7 +256,7 @@ function renderRow(blockId, res, row, i) {
       <td data-clickable onclick="selectRow('${blockId}', ${i}, 'torun')">${torunCell}</td>
       <td data-clickable onclick="selectRow('${blockId}', ${i}, 'ldg_roll')">${row.ldg_roll ?? '—'}</td>
       <td>${res.vmcg_kt}</td>
-      <td>${row.v1 ?? '—'}</td>
+      <td>${row.v1 != null ? row.v1 : '<span style="color:var(--danger);font-weight:700;">—</span>'}</td>
       <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vre')">${row.vre ?? '—'}</td>
       <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vmca')">${row.vmca ?? '—'}</td>
       <td data-clickable onclick="selectRow('${blockId}', ${i}, 'vr')">${row.vr ?? '—'}</td>
@@ -364,7 +364,7 @@ function printRowCells(row, res) {
       <td>${torunCell}</td>
       <td>${row.ldg_roll ?? '—'}</td>
       <td>${res.vmcg_kt}</td>
-      <td>${row.v1 ?? '—'}</td>
+      <td>${row.v1 != null ? row.v1 : '<span style="color:#cc0000;font-weight:700;">—</span>'}</td>
       <td>${row.vre ?? '—'}</td>
       <td>${row.vmca ?? '—'}</td>
       <td>${row.vr ?? '—'}</td>
@@ -397,20 +397,19 @@ function exportPDF() {
   const html = `<!doctype html><html lang="pt"><head><meta charset="utf-8">
     <title>${data.icao} — SHF Tables</title>
     <style>
-      @page { size: A5 landscape; margin: 8mm; }
+      @page { size: A5 landscape; margin: 6mm; }
       * { box-sizing: border-box; }
       body { font-family: Arial, sans-serif; color:#111; margin:0; }
-      .psub { font-size:10px; color:#555; margin-bottom:8px; }
-      .ptable { page-break-after: always; margin-bottom: 6px; }
-      .ptable:last-child { page-break-after: auto; }
-      .ptitle { font-size:12px; font-weight:700; margin-bottom:4px; }
-      table { width:100%; border-collapse:collapse; font-size:9px; }
-      th, td { border:1px solid #999; padding:2px 3px; text-align:center; }
+      .psub { font-size:9px; color:#555; margin-bottom:4px; }
+      .ptable { page-break-inside: avoid; margin-bottom: 3px; }
+      .ptitle { font-size:10px; font-weight:700; margin-bottom:2px; }
+      table { width:100%; border-collapse:collapse; font-size:8px; }
+      th, td { border:1px solid #999; padding:1px 3px; text-align:center; }
       th { background:#eee; }
       tr.exceeds { opacity:0.4; }
     </style>
     </head><body>
-    <div class="psub">RWY ${ap.rwy || '-'} · ELEV ${ap.elev_ft}' · Flap ${data.flap}° · Gradiente OEI ${data.gradient_required}% · Drag Index ${data.drag_index}</div>
+    <div class="psub">RWY ${ap.rwy || '-'} · ELEV ${ap.elev_ft}' · Flap ${data.flap}° · LDG ${ap.ldg_ft ?? '-'} ft · T/O ${ap.to_ft ?? '-'} ft · WIDTH ${ap.width_ft ?? '-'} ft</div>
     ${tables}
     </body></html>`;
 

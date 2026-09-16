@@ -3,3 +3,4 @@ __pycache__/
 static/overlays/*
 !static/overlays/.gitkeep
 .DS_Store
+venv/
